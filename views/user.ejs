@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/nav.ejs") %>
+
+    <h1><%=user.name %></h1>
+    <div class="color_change">
+      <p>User name: <%=user.username %></p>
+      <p>Email: <%=user.email %></p>
+      <p>Phone: <%=user.phone %></p>
+      <p>Website: <%=user.website %></p>
+      <p>Address: <%=user?.address?.city %></p>
+    </div>
+
+    <a href="/edit/<%=user.id %>" class="edit_user">Tahrirlash</a>
+    <button data-id="<%=user.id %>" id="delUser" class="del_user">
+      O'chirish
+    </button>
+    <script>
+      const delButton =
+        document.getElementById("delUser");
+      delButton.addEventListener("click", (e) => {
+        const id = e.target?.dataset?.id || null;
+        if (id) {
+          fetch(`/user/${id}`, {
+            method: "DELETE",
+          }).then(() => {
+            console.log("User deleted");
+            alert("User Deleted");
+            setTimeout(() => {
+              window.location.href = "/users";
+            }, 200);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
